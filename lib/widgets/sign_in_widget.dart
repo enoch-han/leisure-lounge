@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../bloc/bloc.dart';
 
 class SignInWidget extends StatelessWidget {
   const SignInWidget({Key? key}) : super(key: key);
@@ -54,5 +55,6 @@ class SignInWidget extends StatelessWidget {
 
   void onSignUpButtonPressed() {
     print("sign in button tapped");
+    SignInBloc().login();
   }
 }
