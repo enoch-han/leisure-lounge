@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "154662660398",
+    "project_id": "leisure-lounge",
+    "storage_bucket": "leisure-lounge.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154662660398:android:e3bc74ab39797c2354f2bf",
+        "android_client_info": {
+          "package_name": "com.example.leisurelounge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154662660398-pd20ed1obg5jg7mclril3grdravvn032.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.leisurelounge",
+            "certificate_hash": "e88c9d5075b3034bad05da93fa18f841d0819d98"
+          }
+        },
+        {
+          "client_id": "154662660398-siql5drlglg68alud5juta6j3u0agk3c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfmBlmcxr1nSisjAmWVzPiSxnuLWX2jSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "154662660398-siql5drlglg68alud5juta6j3u0agk3c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
