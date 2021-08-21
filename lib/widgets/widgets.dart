@@ -5,3 +5,4 @@ export './trending.dart';
 export './recent.dart';
 export './recommendation.dart';
 export './search_bar.dart';
+export './sign_in_widget.dart';

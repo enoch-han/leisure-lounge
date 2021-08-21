@@ -38,8 +38,10 @@ dependencies:
   riverpod: ^0.14.0+3
   file_picker: ^3.0.4
   video_player: ^2.1.12
-  firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+5
+  firebase_auth: ^0.15.1+1
+  google_sign_in: ^4.5.9
+  font_awesome_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -86,4 +88,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  
