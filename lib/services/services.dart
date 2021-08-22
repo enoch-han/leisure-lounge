@@ -1,2 +1,2 @@
-export './contentService.dart';
+export 'content_service.dart';
 export './user_services.dart';

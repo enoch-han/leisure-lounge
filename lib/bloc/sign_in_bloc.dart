@@ -28,6 +28,7 @@ class SignInProvider with ChangeNotifier {
   }
 
   _fireSetUp() async {
+    //basic firbase instance initialization
     await initialization.then((value) {
       auth.authStateChanges().listen(_onStateChanged as dynamic);
     });
@@ -36,19 +37,24 @@ class SignInProvider with ChangeNotifier {
   //
   Future<Map<String, dynamic>> signInWithGoogle() async {
     try {
+      //1.signs the user
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
+      //2. declares the authentication instance to a variable
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
+      //3. recieves the authentication credentials
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      //4. signs the user in with the aquired credentials
       await auth.signInWithCredential(credential).then((userCredentials) async {
         _user = userCredentials.user;
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("id", _user!.uid);
         if (!await _userServices.doesUserExist(_user!.uid)) {
+          //5. checks if the user exists and creates a user collection in the database
           _userServices.createUser(
               id: _user!.uid, name: _user!.displayName, photo: _user!.photoURL);
           await initializeUserModel();
@@ -63,6 +69,7 @@ class SignInProvider with ChangeNotifier {
   }
 
   Future<bool> initializeUserModel() async {
+    //initializes a user model by searching the database based on the id
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String _userId = preferences.getString('id').toString();
     _userModel = await _userServices.getUserById(_userId);
@@ -75,6 +82,7 @@ class SignInProvider with ChangeNotifier {
   }
 
   Future signOut() async {
+    //signs the user out
     auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
@@ -82,6 +90,7 @@ class SignInProvider with ChangeNotifier {
   }
 
   _onStateChanged(User firebaseUser) {
+    // ignore: unnecessary_null_comparison
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
       notifyListeners();

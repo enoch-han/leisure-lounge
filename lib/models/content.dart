@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../utils/uuid.dart';
 import 'package:flutter/material.dart';
 
@@ -69,6 +71,25 @@ class Content {
     Uuid uuid = Uuid();
     this.id = uuid.generateContentId();
     this.createdAt = DateTime.now();
+  }
+
+  Content.fromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    id = data["id"];
+    title = data["title"];
+    createdAt = DateTime.parse(data['createdAt']);
+    type = data["type"];
+    url = data["url"];
+    imageUrl = data["imageUrl"];
+    description = data["description"];
+    color = parseColor(data["color"]);
+  }
+
+  Color parseColor(String color) {
+    //a function that changes valid color string to color object
+    Color newColor =
+        new Color(int.parse(color.split('(0x')[1].split(')')[0], radix: 16));
+    return newColor;
   }
 }
 
