@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:leisurelounge/widgets/sign_in_widget.dart';
 import '../assets.dart';
+import '../bloc/bloc.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({Key? key}) : super(key: key);

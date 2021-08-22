@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/bloc/bloc.dart';
 import './screens/screens.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+//import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import './utils/utils.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(ProviderScope(child: MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initialization;
+  runApp(MultiProvider(
+      providers: [ChangeNotifierProvider.value(value: SignInProvider.init())],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +24,25 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: Colors.black),
-      home: SignInScreen(),
+      home: AppScreensController(),
     );
+  }
+}
+
+class AppScreensController extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    SignInProvider authProvider = Provider.of<SignInProvider>(context);
+    switch (authProvider.status) {
+      case Status.Uninitialized:
+        return SignInScreen();
+      case Status.Unauthenticated:
+      case Status.Authenticating:
+        return SignInScreen();
+      case Status.Authenticated:
+        return NavigationScreen();
+      default:
+        return SignInScreen();
+    }
   }
 }
