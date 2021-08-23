@@ -6,3 +6,6 @@ export './recent.dart';
 export './recommendation.dart';
 export './search_bar.dart';
 export './sign_in_widget.dart';
+export './profile_header.dart';
+export './profile_body.dart';
+export './content_page_header.dart';

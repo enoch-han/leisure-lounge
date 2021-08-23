@@ -27,7 +27,7 @@ class ContentService {
       "url": url,
       "imageUrl": imageUrl,
       "description": descripton,
-      "color": color.toString()
+      "color": color?.value.toString()
     });
   }
 
@@ -53,6 +53,6 @@ class ContentService {
         contents.add(tempContent);
       });
     });
-    return contents;
+    return contents.toList();
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/assets.dart';
 import 'package:leisurelounge/widgets/widgets.dart';
 import '../models/models.dart';
+import '../models/models.dart';
+import '../services/services.dart';
 
 class ContentHeader extends StatelessWidget {
   final Content featuredContent;
@@ -67,7 +70,20 @@ class _playButton extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(15.0, 5.0, 20.0, 5.0),
       child: TextButton.icon(
           style: TextButton.styleFrom(backgroundColor: Colors.white),
-          onPressed: () => print("play button clicked"),
+          onPressed: () {
+            print("play button clicked");
+            //temporarryyyyyyyyyyyyyyyyyyyyyyyyyyy
+            ContentService instance = ContentService();
+            instance.createContent(
+                id: "12331asdfefe511",
+                title: "temporary",
+                createdAt: DateTime.now(),
+                type: ContentType.movie,
+                url: Assets.atla,
+                imageUrl: Assets.atlaTitle,
+                descripton: "bla bla bal description",
+                color: Colors.red);
+          },
           icon: Icon(
             Icons.play_arrow,
             color: Colors.black,

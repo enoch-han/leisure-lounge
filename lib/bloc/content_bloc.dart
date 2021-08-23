@@ -56,6 +56,7 @@ class ContentBloc {
   }
 
   bool deleteContent(Content content) {
-    return service.deleteContent(content);
+    return true;
+    //return service.deleteContent(content);
   }
 }

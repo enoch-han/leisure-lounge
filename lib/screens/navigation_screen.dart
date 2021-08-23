@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/data/data.dart';
 import 'package:leisurelounge/screens/home_screen.dart';
 import 'package:leisurelounge/screens/screens.dart';
 
@@ -15,9 +16,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       key: PageStorageKey("homescreen"),
     ),
     MyListScreen(),
-    Scaffold(),
+    //this is temporary code should be replaced in future
+    ContentScreen(content: featuredcontent),
     SearchScreen(),
-    Scaffold()
+    ProfileScreen()
   ];
 
   final Map<String, IconData> _icons = {

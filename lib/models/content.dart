@@ -75,14 +75,14 @@ class Content {
 
   Content.fromSnapshot(DocumentSnapshot snapshot) {
     Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    id = data["id"];
-    title = data["title"];
+    id = data['id'];
+    title = data['title'];
     createdAt = DateTime.parse(data['createdAt']);
-    type = data["type"];
-    url = data["url"];
-    imageUrl = data["imageUrl"];
-    description = data["description"];
-    color = parseColor(data["color"]);
+    type = data['type'];
+    url = data['url'];
+    imageUrl = data['imageUrl'];
+    description = data['description'];
+    color = parseColor(data['color']);
   }
 
   Color parseColor(String color) {
