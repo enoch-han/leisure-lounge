@@ -21,7 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
    * recoding
    */
   String query = '';
-  late List<Content> allContent;
+  late List<ContentModel> allContent;
   @override
   void initState() {
     allContent = trending;
@@ -58,7 +58,7 @@ class _SearchScreenState extends State<SearchScreen> {
             child: ListView.builder(
                 itemCount: allContent.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Content content = allContent[index];
+                  ContentModel content = allContent[index];
                   return Container(
                     decoration: BoxDecoration(color: Colors.grey),
                     child: Column(

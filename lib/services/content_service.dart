@@ -31,10 +31,10 @@ class ContentService {
     });
   }
 
-  Future<Content> getContentById(String id) =>
+  Future<ContentModel> getContentById(String id) =>
       //retruns content based on a give id
       firebaseFirestore.collection(collection).doc(id).get().then((value) {
-        return Content.fromSnapshot(value);
+        return ContentModel.fromSnapshot(value);
       });
 
 //returns boolean value depending on the existance of the content
@@ -45,11 +45,11 @@ class ContentService {
       .then((value) => value.exists);
 
 //returns all the contents in the database
-  Future<List<Content>> getContentAll() async {
-    List<Content> contents = [];
+  Future<List<ContentModel>> getContentAll() async {
+    List<ContentModel> contents = [];
     firebaseFirestore.collection(collection).get().then((value) {
       value.docs.forEach((doc) {
-        Content tempContent = getContentById(doc.id) as Content;
+        ContentModel tempContent = getContentById(doc.id) as ContentModel;
         contents.add(tempContent);
       });
     });

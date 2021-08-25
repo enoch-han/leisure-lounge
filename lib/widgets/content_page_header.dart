@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 
 class ContentPageHeader extends StatelessWidget {
-  final Content content;
+  final ContentModel content;
   const ContentPageHeader({Key? key, required this.content}) : super(key: key);
 
   @override

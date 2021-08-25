@@ -6,7 +6,7 @@ import '../models/models.dart';
 import '../services/services.dart';
 
 class ContentHeader extends StatelessWidget {
-  final Content featuredContent;
+  final ContentModel featuredContent;
   const ContentHeader({Key? key, required this.featuredContent})
       : super(key: key);
 
@@ -33,7 +33,7 @@ class ContentHeader extends StatelessWidget {
           bottom: 110,
           child: SizedBox(
             width: 250.0,
-            child: Image.asset(featuredContent.url),
+            child: Image.asset(featuredContent.contentUrl),
           ),
         ),
         Positioned(

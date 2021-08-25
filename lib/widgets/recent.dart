@@ -3,7 +3,7 @@ import '../models/models.dart';
 
 class Recent extends StatelessWidget {
   final String title = "Recent";
-  final List<Content> items;
+  final List<ContentModel> items;
   const Recent({Key? key, required this.items}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class Recent extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                final Content content = items[index];
+                final ContentModel content = items[index];
                 return GestureDetector(
                   onTap: () => {
                     print(

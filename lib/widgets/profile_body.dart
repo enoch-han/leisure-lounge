@@ -4,7 +4,7 @@ import '../widgets/widgets.dart';
 
 class ProfileBody extends StatelessWidget {
   final String title = "Liked contents";
-  final List<Content> items;
+  final List<ContentModel> items;
   const ProfileBody({Key? key, required this.items}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class ProfileBody extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: items.length,
           itemBuilder: (BuildContext context, int index) {
-            Content item = items[index];
+            ContentModel item = items[index];
             return GestureDetector(
               onTap: () {
                 print(

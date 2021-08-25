@@ -3,7 +3,7 @@ import 'package:leisurelounge/models/content.dart';
 import '../widgets/widgets.dart';
 
 class ContentScreen extends StatefulWidget {
-  final Content content;
+  final ContentModel content;
   ContentScreen({Key? key, required this.content}) : super(key: key);
 
   @override

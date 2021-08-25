@@ -4,48 +4,56 @@ import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../assets.dart';
 
-final Content somename = Content(
-    id: "hello",
-    title: "avengers",
-    createdAt: DateTime.now(),
-    type: ContentType.movie,
-    url: "someurl",
-    imageUrl: "someimage",
-    description: "blablabla");
+final ContentModel somename = ContentModel(
+  title: "avengers",
+  type: ContentType.movie,
+  genre: Genre.action,
+  contentUrl: "someurl",
+  imageUrl: "someimage",
+  description: "blablabla",
+  releaseYear: DateTime.now(),
+);
 
-final Content featuredcontent = Content.newContent(
+final ContentModel featuredcontent = ContentModel(
     title: "sintel",
     type: ContentType.movie,
-    url: Assets.sintelTitle,
+    contentUrl: Assets.sintelTitle,
+    genre: Genre.comedy,
     imageUrl: Assets.sintel,
-    description: "something something");
+    description: "something something",
+    releaseYear: DateTime.now());
 
-final List<Content> trending = [
-  Content.newContent(
+final List<ContentModel> trending = [
+  ContentModel(
       title: "The last airbender",
       type: ContentType.movie,
-      url: Assets.atlaTitle,
+      genre: Genre.drama,
+      contentUrl: Assets.atlaTitle,
       imageUrl: Assets.atla,
       description: "wezete wezete",
-      color: Colors.orange),
-  Content.newContent(
+      releaseYear: DateTime.now()),
+  ContentModel(
       title: "the umbrella academy",
       type: ContentType.movie,
-      url: Assets.umbrellaAcademyTitle,
+      genre: Genre.fantasy,
+      contentUrl: Assets.umbrellaAcademyTitle,
       imageUrl: Assets.umbrellaAcademy,
       description: "umbrella umbrella",
-      color: Colors.yellow),
-  Content.newContent(
+      releaseYear: DateTime.now()),
+  ContentModel(
       title: "carole and tuesday",
       type: ContentType.movie,
-      url: Assets.caroleAndTuesdayTitle,
+      genre: Genre.horror,
+      contentUrl: Assets.caroleAndTuesdayTitle,
       imageUrl: Assets.caroleAndTuesday,
       description: "tuesday with caroll",
-      color: Colors.lightBlueAccent),
-  Content.newContent(
+      releaseYear: DateTime.now()),
+  ContentModel(
       title: "Black mirror",
       type: ContentType.movie,
-      url: Assets.blackMirrorTitle,
+      genre: Genre.romance,
+      contentUrl: Assets.blackMirrorTitle,
       imageUrl: Assets.blackMirror,
-      description: "all the descriptions about black mirror")
+      description: "all the descriptions about black mirror",
+      releaseYear: DateTime.now())
 ];

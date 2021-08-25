@@ -3,7 +3,7 @@ import '../models/models.dart';
 
 class Trending extends StatelessWidget {
   final String title;
-  final List<Content> items;
+  final List<ContentModel> items;
   const Trending({Key? key, required this.title, required this.items})
       : super(key: key);
 
@@ -29,7 +29,7 @@ class Trending extends StatelessWidget {
               itemCount: items.length,
               padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
               itemBuilder: (BuildContext context, int index) {
-                final Content content = items[index];
+                final ContentModel content = items[index];
                 return GestureDetector(
                   onTap: () => print(
                       'the content ${content.title} has been clicked from trending list'),
@@ -44,8 +44,7 @@ class Trending extends StatelessWidget {
                             image: DecorationImage(
                                 image: AssetImage(content.imageUrl),
                                 fit: BoxFit.cover),
-                            border:
-                                Border.all(color: content.color, width: 4.0),
+                            border: Border.all(color: Colors.red, width: 4.0),
                             shape: BoxShape.circle),
                       ),
                       Container(
@@ -72,7 +71,7 @@ class Trending extends StatelessWidget {
                           bottom: 0,
                           child: SizedBox(
                             height: 60.0,
-                            child: Image.asset(content.url),
+                            child: Image.asset(content.contentUrl),
                           ))
                     ],
                   ),

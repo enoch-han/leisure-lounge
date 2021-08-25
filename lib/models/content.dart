@@ -1,96 +1,179 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../utils/uuid.dart';
+import '../utils/custom_uuid.dart';
 import 'package:flutter/material.dart';
 
-class Content {
+class ContentModel {
   /* this class is the model of how a content should look */
-  late String id;
+
   late String title;
-  late DateTime createdAt;
+  late String id = CustomUuid().generateTypeId("content");
+  late DateTime createdAt = DateTime.now();
   late ContentType type;
-  late String url;
+  late Genre genre;
+  late String contentUrl;
   late String imageUrl;
   late String description;
-  late Color color;
+  late DateTime releaseYear;
+  late int rateCount = 1;
+  late int likeCount = 0;
+  late int commentCount = 0;
 
 //getters and setters
 
-  String get getId => this.id;
-
+//setters
   set setId(String id) => this.id = id;
-
-  String get getTitle => this.title;
-
+  set setReleaseYear(releaseYear) => this.releaseYear = releaseYear;
+  set setRateCount(rateCount) => this.rateCount = rateCount;
+  set setLikeCount(likeCount) => this.likeCount = likeCount;
+  set setCommentCount(commentCount) => this.commentCount = commentCount;
+  set setGenre(genre) => this.genre = genre;
   set setTitle(String title) => this.title = title;
-
-  DateTime get getCreatedAt => this.createdAt;
-
   set setCreatedAt(DateTime createdAt) => this.createdAt = createdAt;
-
-  ContentType get getType => this.type;
-
   set setType(ContentType type) => this.type = type;
-
-  String get getUrl => this.url;
-
-  set setUrl(String url) => this.url = url;
-
-  String get getImageUrl => this.imageUrl;
-
+  set setUrl(String url) => this.contentUrl = url;
   set setImageUrl(String imageUrl) => this.imageUrl = imageUrl;
-
-  String get getDescription => this.description;
-
   set setDescription(String description) => this.description = description;
 
-  Color get getColor => this.color;
+//getters
+  DateTime get getReleaseYear => this.releaseYear;
+  int get getRateCount => this.rateCount;
+  int get getLikeCount => this.likeCount;
+  int get getCommentCount => this.commentCount;
+  Genre get getGenre => this.genre;
+  String get getId => this.id;
+  String get getTitle => this.title;
+  DateTime get getCreatedAt => this.createdAt;
+  ContentType get getType => this.type;
+  String get getUrl => this.contentUrl;
+  String get getImageUrl => this.imageUrl;
+  String get getDescription => this.description;
 
-  set setColor(Color color) => this.color = color;
   //getter and setter end**************
 
-  Content(
+  ContentModel(
       // a constructor to build readymade contents
-      {required this.id,
-      required this.title,
-      required this.createdAt,
-      required this.type,
-      required this.url,
-      required this.imageUrl,
-      required this.description,
-      this.color = Colors.black});
-
-  Content.newContent(
-      //a constructor for new content values
       {required this.title,
       required this.type,
-      required this.url,
+      required this.genre,
+      required this.contentUrl,
       required this.imageUrl,
       required this.description,
-      this.color = Colors.black}) {
-    Uuid uuid = Uuid();
-    this.id = uuid.generateContentId();
-    this.createdAt = DateTime.now();
-  }
+      required this.releaseYear});
 
-  Content.fromSnapshot(DocumentSnapshot snapshot) {
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+  ContentModel.fromSnapshot(DocumentSnapshot snapshot) {
+    // a constructor which populates the fields parsing from snaphot
+    Map<String, dynamic> data = snapshot.data();
     id = data['id'];
     title = data['title'];
     createdAt = DateTime.parse(data['createdAt']);
-    type = data['type'];
-    url = data['url'];
+    type = ContentType.unknown.parseToType(data['type']);
+    genre = Genre.unknown.parseToGenre(data['genre']);
+    contentUrl = data['contentUrl'];
     imageUrl = data['imageUrl'];
     description = data['description'];
-    color = parseColor(data['color']);
-  }
-
-  Color parseColor(String color) {
-    //a function that changes valid color string to color object
-    Color newColor =
-        new Color(int.parse(color.split('(0x')[1].split(')')[0], radix: 16));
-    return newColor;
+    releaseYear = data['releaseYear'];
+    rateCount = data['rareCount'];
+    likeCount = data['likeCount'];
+    commentCount = data['commentCount'];
   }
 }
 
-enum ContentType { movie, music }
+enum ContentType { movie, music, unknown }
+
+extension parseBothWaysToType on ContentType {
+  //this is an extension for the enum which adds functions which turns the
+  //enum back to string and the string to enum
+  String parseToString() {
+    return this.toString().split('.').last;
+  }
+
+  ContentType parseToType(String value) {
+    switch (value) {
+      case 'movie':
+        return ContentType.movie;
+        // ignore: dead_code
+        break;
+      case 'music':
+        return ContentType.music;
+        // ignore: dead_code
+        break;
+      default:
+        print("error on parsetotype therefore default is unknown");
+        return ContentType.unknown;
+        // ignore: dead_code
+        break;
+    }
+  }
+}
+
+enum Genre {
+  action,
+  comedy,
+  fantasy,
+  horror,
+  mystery,
+  drama,
+  romance,
+  thriller,
+  romanticComedy,
+  actionComedy,
+  unknown
+}
+
+extension parseBothWaysToGenre on Genre {
+  //this is an extension for the enum which adds functions which turns the
+  //enum back to string and the string to enum
+  String parseToString() {
+    return this.toString().split('.').last;
+  }
+
+  Genre parseToGenre(String value) {
+    switch (value) {
+      case 'action':
+        return Genre.action;
+        // ignore: dead_code
+        break;
+      case 'comedy':
+        return Genre.comedy;
+        // ignore: dead_code
+        break;
+      case 'fantasy':
+        return Genre.fantasy;
+        // ignore: dead_code
+        break;
+      case 'horror':
+        return Genre.horror;
+        // ignore: dead_code
+        break;
+      case 'mystery':
+        return Genre.mystery;
+        // ignore: dead_code
+        break;
+      case 'drama':
+        return Genre.drama;
+        // ignore: dead_code
+        break;
+      case 'romance':
+        return Genre.romance;
+        // ignore: dead_code
+        break;
+      case 'thriller':
+        return Genre.thriller;
+        // ignore: dead_code
+        break;
+      case 'romanticComedy':
+        return Genre.romanticComedy;
+        // ignore: dead_code
+        break;
+      case 'actionComedy':
+        return Genre.actionComedy;
+        // ignore: dead_code
+        break;
+      default:
+        print("error on parsetogenre therefore default is unknown");
+        return Genre.unknown;
+        // ignore: dead_code
+        break;
+    }
+  }
+}

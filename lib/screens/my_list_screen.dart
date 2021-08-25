@@ -57,7 +57,7 @@ class _Movie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Content> mylistitems = trending;
+    final List<ContentModel> mylistitems = trending;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 6.0),
       child: Column(
@@ -80,7 +80,7 @@ class _Movie extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: trending.length,
                 itemBuilder: (BuildContext context, int index) {
-                  Content item = trending[index];
+                  ContentModel item = trending[index];
                   return GestureDetector(
                     onTap: () {
                       print(
@@ -151,7 +151,7 @@ class _Movie extends StatelessWidget {
 
 class _RecentViewed extends StatelessWidget {
   final String title = "Recently viewed";
-  final List<Content> items = trending;
+  final List<ContentModel> items = trending;
   _RecentViewed({Key? key}) : super(key: key);
 
   @override
@@ -175,7 +175,7 @@ class _RecentViewed extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                final Content content = items[index];
+                final ContentModel content = items[index];
                 return GestureDetector(
                     onTap: () => {
                           print(

@@ -3,7 +3,7 @@ import '../models/models.dart';
 
 class Recommendation extends StatelessWidget {
   final String title = "Recommendation";
-  final List<Content> items;
+  final List<ContentModel> items;
   const Recommendation({Key? key, required this.items}) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class Recommendation extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                final Content content = items[index];
+                final ContentModel content = items[index];
                 return GestureDetector(
                     onTap: () => {
                           print(
