@@ -18,6 +18,19 @@ class ContentModel {
   late int likeCount = 0;
   late int commentCount = 0;
 
+  static const String ID = "id";
+  static const String TITLE = "title";
+  static const String CREATEDAT = "createdAt";
+  static const String TYPE = "type";
+  static const String GENRE = "genre";
+  static const String CONTENTURL = "contentUrl";
+  static const String IMAGEURL = "imageUrl";
+  static const String DESCRIPTION = "description";
+  static const String RELEASEYEAR = "releaseYear";
+  static const String RATECOUNT = "rateCount";
+  static const String LIKECOUNT = "likeCount";
+  static const String COMMENTCOUNT = "commentCount";
+
 //getters and setters
 
 //setters
@@ -30,7 +43,7 @@ class ContentModel {
   set setTitle(String title) => this.title = title;
   set setCreatedAt(DateTime createdAt) => this.createdAt = createdAt;
   set setType(ContentType type) => this.type = type;
-  set setUrl(String url) => this.contentUrl = url;
+  set setUrl(String contentUrl) => this.contentUrl = contentUrl;
   set setImageUrl(String imageUrl) => this.imageUrl = imageUrl;
   set setDescription(String description) => this.description = description;
 
@@ -44,7 +57,7 @@ class ContentModel {
   String get getTitle => this.title;
   DateTime get getCreatedAt => this.createdAt;
   ContentType get getType => this.type;
-  String get getUrl => this.contentUrl;
+  String get getContentUrl => this.contentUrl;
   String get getImageUrl => this.imageUrl;
   String get getDescription => this.description;
 
@@ -62,19 +75,19 @@ class ContentModel {
 
   ContentModel.fromSnapshot(DocumentSnapshot snapshot) {
     // a constructor which populates the fields parsing from snaphot
-    Map<String, dynamic> data = snapshot.data();
-    id = data['id'];
-    title = data['title'];
-    createdAt = DateTime.parse(data['createdAt']);
-    type = ContentType.unknown.parseToType(data['type']);
-    genre = Genre.unknown.parseToGenre(data['genre']);
-    contentUrl = data['contentUrl'];
-    imageUrl = data['imageUrl'];
-    description = data['description'];
-    releaseYear = data['releaseYear'];
-    rateCount = data['rareCount'];
-    likeCount = data['likeCount'];
-    commentCount = data['commentCount'];
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    id = data[ID];
+    title = data[TITLE];
+    createdAt = DateTime.parse(data[CREATEDAT]);
+    type = ContentType.unknown.parseToType(data[TYPE]);
+    genre = Genre.unknown.parseToGenre(data[GENRE]);
+    contentUrl = data[CONTENTURL];
+    imageUrl = data[IMAGEURL];
+    description = data[DESCRIPTION];
+    releaseYear = DateTime.parse(data[RELEASEYEAR]);
+    rateCount = data[RATECOUNT];
+    likeCount = data[LIKECOUNT];
+    commentCount = data[COMMENTCOUNT];
   }
 }
 

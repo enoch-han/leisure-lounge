@@ -2,7 +2,7 @@ import 'package:uuid/uuid.dart';
 
 class CustomUuid {
   final uuid = Uuid().v4();
-  late String value;
+  //late String value;
 
   //CustomUuid({required this.value});
 
@@ -12,7 +12,7 @@ class CustomUuid {
 
   String generateTypeId(String type) {
     // function that generates an id with type in front
-    return "$value+$uuid";
+    return "$type+$uuid";
   }
 
   String getType(String idValue) {

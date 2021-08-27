@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:leisurelounge/assets.dart';
+import 'package:leisurelounge/data/data.dart';
 import 'package:leisurelounge/widgets/widgets.dart';
 import '../models/models.dart';
 import '../models/models.dart';
 import '../services/services.dart';
+import '../utils/utils.dart';
 
 class ContentHeader extends StatelessWidget {
   final ContentModel featuredContent;
@@ -46,7 +48,19 @@ class ContentHeader extends StatelessWidget {
               VerticalIconButton(
                   icon: Icons.add,
                   title: "List",
-                  onTap: () => print("list icon tapped")),
+                  onTap: () async {
+                    print("list icon tapped");
+                    ContentService instance = ContentService();
+                    ContentModel model = await instance.getContentById(
+                        'content+50d1ad75-0033-4d3e-b31d-30426c23fd0f');
+                    print(model.title);
+                    bool status = await instance.doesContentExist(
+                        'content+50d1ad75-0033-4d3e-b31d-30426c23fd0f');
+                    print(status);
+                    List<ContentModel> lists = await instance.getContentAll();
+                    print('4444444444444444444444444444444444444444');
+                    print(lists);
+                  }),
               _playButton(),
               VerticalIconButton(
                   icon: Icons.info_outline,
@@ -74,15 +88,7 @@ class _playButton extends StatelessWidget {
             print("play button clicked");
             //temporarryyyyyyyyyyyyyyyyyyyyyyyyyyy
             ContentService instance = ContentService();
-            instance.createContent(
-                id: "12331asdfefe511",
-                title: "temporary",
-                createdAt: DateTime.now(),
-                type: ContentType.movie,
-                url: Assets.atla,
-                imageUrl: Assets.atlaTitle,
-                descripton: "bla bla bal description",
-                color: Colors.red);
+            instance.createContent(featuredcontent);
           },
           icon: Icon(
             Icons.play_arrow,

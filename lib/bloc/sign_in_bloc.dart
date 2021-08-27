@@ -55,8 +55,12 @@ class SignInProvider with ChangeNotifier {
         await prefs.setString("id", _user!.uid);
         if (!await _userServices.doesUserExist(_user!.uid)) {
           //5. checks if the user exists and creates a user collection in the database
-          _userServices.createUser(
-              id: _user!.uid, name: _user!.displayName, photo: _user!.photoURL);
+          UserModel tempUser = UserModel(
+              id: _user!.uid,
+              name: _user!.displayName.toString(),
+              email: _user!.email.toString(),
+              photo: _user!.photoURL.toString());
+          _userServices.createUser(tempUser);
           await initializeUserModel();
         } else {
           await initializeUserModel();

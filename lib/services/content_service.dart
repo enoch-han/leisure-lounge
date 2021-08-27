@@ -1,6 +1,5 @@
 import '../models/models.dart';
 import 'dart:io';
-import '../models/models.dart';
 import '../utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,33 +7,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ContentService {
   String collection = "contents";
 
-  void createContent({
-    //creates a content in the firstore database
-    String? id,
-    String? title,
-    DateTime? createdAt,
-    ContentType? type,
-    String? url,
-    String? imageUrl,
-    String? descripton,
-    Color? color,
-  }) {
-    firebaseFirestore.collection(collection).doc(id).set({
-      "id": id,
-      "title": title,
-      "createdAt": createdAt.toString(),
-      "type": type.toString(),
-      "url": url,
-      "imageUrl": imageUrl,
-      "description": descripton,
-      "color": color?.value.toString()
+  void createContent(ContentModel content) {
+    firebaseFirestore.collection(collection).doc(content.id).set({
+      "id": content.getId,
+      "title": content.getTitle,
+      "createdAt": content.getCreatedAt.toString(),
+      "type": content.getType.parseToString(),
+      "genre": content.getGenre.parseToString(),
+      "contentUrl": content.getContentUrl,
+      "imageUrl": content.getImageUrl,
+      "description": content.getDescription,
+      "releaseYear": content.getReleaseYear.toString(),
+      "rateCount": content.getRateCount,
+      "likeCount": content.getLikeCount,
+      "commentCount": content.getCommentCount
     });
   }
 
-  Future<ContentModel> getContentById(String id) =>
+  Future<ContentModel> getContentById(String id) async =>
       //retruns content based on a give id
-      firebaseFirestore.collection(collection).doc(id).get().then((value) {
-        return ContentModel.fromSnapshot(value);
+      await firebaseFirestore.collection(collection).doc(id).get().then((doc) {
+        print("in the getcontentbyid function from clas content services");
+        return ContentModel.fromSnapshot(doc) as ContentModel;
       });
 
 //returns boolean value depending on the existance of the content
@@ -42,15 +36,16 @@ class ContentService {
       .collection(collection)
       .doc()
       .get()
-      .then((value) => value.exists);
+      .then((value) => value.exists as bool);
 
 //returns all the contents in the database
   Future<List<ContentModel>> getContentAll() async {
     List<ContentModel> contents = [];
     firebaseFirestore.collection(collection).get().then((value) {
-      value.docs.forEach((doc) {
-        ContentModel tempContent = getContentById(doc.id) as ContentModel;
-        contents.add(tempContent);
+      value.docs.forEach((doc) async {
+        ContentModel tempContent = await getContentById(doc.id);
+        print('in the get content all function');
+        contents.add(await getContentById(doc.id));
       });
     });
     return contents.toList();
