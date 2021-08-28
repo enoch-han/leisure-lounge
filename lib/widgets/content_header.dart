@@ -6,6 +6,8 @@ import '../models/models.dart';
 import '../models/models.dart';
 import '../services/services.dart';
 import '../utils/utils.dart';
+import '../bloc/bloc.dart';
+import 'package:provider/provider.dart';
 
 class ContentHeader extends StatelessWidget {
   final ContentModel featuredContent;
@@ -14,6 +16,7 @@ class ContentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SignInProvider authProvider = Provider.of<SignInProvider>(context);
     return Stack(
       children: [
         Container(
@@ -65,7 +68,29 @@ class ContentHeader extends StatelessWidget {
               VerticalIconButton(
                   icon: Icons.info_outline,
                   title: "info",
-                  onTap: () => print("info button tapped"))
+                  onTap: () async {
+                    ContentService instance = ContentService();
+                    CommentService comserv = CommentService();
+                    LikeServices likserv = LikeServices();
+                    RateService ratserv = RateService();
+                    ContentModel model = await instance.getContentById(
+                        'content+0e64f03a-4dd2-4b5e-a472-510c232ce1e0');
+                    LikeModel like = LikeModel(
+                        userId: authProvider.userModel!.id,
+                        contentId: model.id);
+                    likserv.createContent(model, like);
+                    CommentModel comment = CommentModel(
+                        userId: authProvider.userModel!.id,
+                        contentId: model.id,
+                        description: "this movie is the very best");
+                    comserv.createComment(model, comment);
+                    RateModel rate = RateModel(
+                        userId: authProvider.userModel!.id,
+                        contentId: model.id,
+                        value: 4);
+                    ratserv.createComment(model, rate);
+                    print("info button tapped");
+                  })
             ],
           ),
         )

@@ -1,48 +1,21 @@
 import 'dart:html';
-import 'dart:io';
-import '../services/services.dart';
-import '../models/models.dart';
+import 'dart:async';
 import '../utils/utils.dart';
+import '../models/models.dart';
+import '../services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class ContentBloc {
-  ContentService service = ContentService();
+class ContentProvider with ChangeNotifier {
+  ContentModel? _content;
+  ContentService _contentService = ContentService();
 
-  dynamic updateContent({
-    required ContentModel content,
-    required String which,
-    required String value,
-  }) {
-    //this function updates the content by taking the content which to edit and the value
-    bool status = false;
-    switch (which) {
-      case 'title':
-        {
-          content.setTitle = value;
-        }
-        break;
-      case 'url':
-        {
-          content.setUrl = value;
-        }
-        break;
-      case 'titleurl':
-        {
-          content.setImageUrl = value;
-        }
-        break;
-      case 'description':
-        {
-          content.setDescription = value;
-        }
-        break;
-    }
-    ;
-    return content;
-  }
+  ContentProvider.init() {}
 
-  bool deleteContent(ContentModel content) {
-    return true;
-    //return service.deleteContent(content);
+  _contentProviderSetUP() async {
+    firebaseFirestore.collection("contents").snapshots().listen((event) {});
   }
 }

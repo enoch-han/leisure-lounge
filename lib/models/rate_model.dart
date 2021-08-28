@@ -9,7 +9,7 @@ class RateModel {
   late String userId;
   late String contentId;
   DateTime ratedAt = DateTime.now();
-  late int value;
+  int value = 1;
 
   static const String ID = "id";
   static const String USERID = "userId";

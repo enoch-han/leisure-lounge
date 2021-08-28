@@ -13,7 +13,7 @@ class LikeServices {
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .doc(like.contentId)
+        .doc(like.id)
         .set({
       "id": like.id,
       "userId": like.userId,

@@ -1,38 +1,37 @@
 import '../models/models.dart';
-import 'dart:io';
 import '../utils/utils.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class CommentService {
-  String collection = "comments";
+class ListService {
+  String collection = "lists";
   String contentCollection = "contents";
 
-  void createComment(ContentModel content, CommentModel comment) {
+  void createContent(ContentModel content, ListModel list) {
     firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .doc(comment.id)
+        .doc(list.contentId)
         .set({
-      "id": comment.id,
-      "userId": comment.userId,
-      "contentId": comment.contentId,
-      "description": comment.description,
-      "commentedAt": comment.commentedAt
+      "id": list.id,
+      "userId": list.userId,
+      "contentId": list.contentId,
+      "listedAt": list.listedAt
     });
   }
 
-  Future<CommentModel> getCommentById(ContentModel content, String id) async =>
+  Future<ListModel> getListById(ContentModel content, String id) async =>
       await firebaseFirestore
           .collection(contentCollection)
           .doc(content.id)
           .collection(collection)
           .doc(id)
           .get()
-          .then((value) => CommentModel.fromSnapshot(value) as CommentModel);
+          .then((value) => ListModel.fromSnapshot(value) as ListModel);
 
-  Future<bool> doesCommentExist(ContentModel content, String id) =>
+  Future<bool> doesListExist(ContentModel content, String id) =>
       firebaseFirestore
           .collection(contentCollection)
           .doc(content.id)
@@ -41,8 +40,8 @@ class CommentService {
           .get()
           .then((value) => value.exists as bool);
 
-  Future<List<CommentModel>> getCommentAll(ContentModel content) async {
-    List<CommentModel> comments = [];
+  Future<List<ListModel>> getListAll(ContentModel content) async {
+    List<ListModel> lists = [];
     firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
@@ -50,10 +49,10 @@ class CommentService {
         .get()
         .then((value) {
       value.docs.forEach((doc) async {
-        CommentModel tempComment = await getCommentById(content, doc.id);
-        comments.add(tempComment);
+        ListModel tempList = await getListById(content, doc.id);
+        lists.add(tempList);
       });
     });
-    return comments.toList();
+    return lists.toList();
   }
 }

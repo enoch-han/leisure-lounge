@@ -19,7 +19,6 @@ class UserServices {
   Future<UserModel> getUserById(String id) async =>
       //returns a usermodel by searching the database based on the given id
       firebaseFirestore.collection(collection).doc(id).get().then((doc) {
-        print("ingetuser ny id${doc}");
         return UserModel.fromSnapshot(doc);
       });
 

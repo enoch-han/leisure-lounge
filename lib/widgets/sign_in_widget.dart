@@ -52,6 +52,7 @@ class SignInWidget extends StatelessWidget {
                   //appProvider.changeLoading();
                 } else {
                   //appProvider.changeLoading();
+                  print("in sign in wigetttttt");
                   NavigationScreen();
                 }
               },
