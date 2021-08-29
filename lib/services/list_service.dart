@@ -8,7 +8,7 @@ class ListService {
   String collection = "lists";
   String contentCollection = "contents";
 
-  void createContent(ContentModel content, ListModel list) {
+  void createList(ContentModel content, ListModel list) {
     firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)

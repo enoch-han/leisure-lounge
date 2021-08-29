@@ -24,6 +24,7 @@ class SignInProvider with ChangeNotifier {
   User? get user => _user;
 
   SignInProvider.init() {
+    print("in sign in bloc init function");
     _fireSetUp();
   }
 

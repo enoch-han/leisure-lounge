@@ -1,3 +1,5 @@
+import 'package:leisurelounge/services/rate_services.dart';
+
 import '../models/models.dart';
 import 'dart:io';
 import '../utils/utils.dart';

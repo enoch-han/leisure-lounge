@@ -1,3 +1,5 @@
+import 'package:leisurelounge/services/content_service.dart';
+
 import '../models/models.dart';
 import '../utils/utils.dart';
 import 'dart:io';
@@ -7,8 +9,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LikeServices {
   String collection = "likes";
   String contentCollection = "contents";
+  ContentService service = ContentService();
 
-  void createContent(ContentModel content, LikeModel like) {
+  void createLike(ContentModel content, LikeModel like) {
     firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
@@ -20,6 +23,7 @@ class LikeServices {
       "contentId": like.contentId,
       "likedAt": like.likedAt
     });
+    addLikeCount(content);
   }
 
   Future<LikeModel> getLikeById(ContentModel content, String id) async =>
@@ -56,5 +60,17 @@ class LikeServices {
       });
     });
     return likes.toList();
+  }
+
+  Future<bool> addLikeCount(ContentModel content) async {
+    //this function adds the the like count by 1
+    ContentModel tempContent =
+        service.getContentById(content.id) as ContentModel;
+    firebaseFirestore.collection(contentCollection).doc(content.id).update(
+        {"likeCount": tempContent.likeCount++}).onError((error, stackTrace) {
+      print("error occured in like service addlikecount function");
+      return false;
+    });
+    return true;
   }
 }

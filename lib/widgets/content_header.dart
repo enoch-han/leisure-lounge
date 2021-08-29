@@ -78,7 +78,7 @@ class ContentHeader extends StatelessWidget {
                     LikeModel like = LikeModel(
                         userId: authProvider.userModel!.id,
                         contentId: model.id);
-                    likserv.createContent(model, like);
+                    likserv.createLike(model, like);
                     CommentModel comment = CommentModel(
                         userId: authProvider.userModel!.id,
                         contentId: model.id,
@@ -88,7 +88,7 @@ class ContentHeader extends StatelessWidget {
                         userId: authProvider.userModel!.id,
                         contentId: model.id,
                         value: 4);
-                    ratserv.createComment(model, rate);
+                    ratserv.createRate(model, rate);
                     print("info button tapped");
                   })
             ],
