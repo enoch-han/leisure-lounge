@@ -10,8 +10,8 @@ class ContentModel {
   late DateTime createdAt = DateTime.now();
   late ContentType type;
   late Genre genre;
-  late String contentUrl;
-  late String imageUrl;
+  late String contentUrl = "";
+  late String imageUrl = "";
   late String description;
   late DateTime releaseYear;
   late int rateCount = 1;
@@ -68,8 +68,6 @@ class ContentModel {
       {required this.title,
       required this.type,
       required this.genre,
-      required this.contentUrl,
-      required this.imageUrl,
       required this.description,
       required this.releaseYear});
 

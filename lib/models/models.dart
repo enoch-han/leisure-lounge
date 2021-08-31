@@ -7,3 +7,4 @@ export './comment_model.dart';
 export './like_model.dart';
 export './rate_model.dart';
 export './list_model.dart';
+export './file_model.dart';

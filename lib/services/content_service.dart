@@ -9,21 +9,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ContentService {
   String collection = "contents";
 
-  void createContent(ContentModel content) {
-    firebaseFirestore.collection(collection).doc(content.id).set({
-      "id": content.getId,
-      "title": content.getTitle,
-      "createdAt": content.getCreatedAt.toString(),
-      "type": content.getType.parseToString(),
-      "genre": content.getGenre.parseToString(),
-      "contentUrl": content.getContentUrl,
-      "imageUrl": content.getImageUrl,
-      "description": content.getDescription,
-      "releaseYear": content.getReleaseYear.toString(),
-      "rateCount": content.getRateCount,
-      "likeCount": content.getLikeCount,
-      "commentCount": content.getCommentCount
-    });
+  Future<bool> createContent(ContentModel content) async {
+    try {
+      await firebaseFirestore.collection(collection).doc(content.id).set({
+        "id": content.getId,
+        "title": content.getTitle,
+        "createdAt": content.getCreatedAt.toString(),
+        "type": content.getType.parseToString(),
+        "genre": content.getGenre.parseToString(),
+        "contentUrl": content.getContentUrl,
+        "imageUrl": content.getImageUrl,
+        "description": content.getDescription,
+        "releaseYear": content.getReleaseYear.toString(),
+        "rateCount": content.getRateCount,
+        "likeCount": content.getLikeCount,
+        "commentCount": content.getCommentCount
+      });
+      return true;
+    } on FirebaseException catch (e) {
+      print(
+          "error while creating content in content service class createcontent function");
+      return false;
+    }
   }
 
   Future<ContentModel> getContentById(String id) async =>
