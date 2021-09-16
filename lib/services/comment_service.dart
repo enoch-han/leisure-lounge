@@ -45,7 +45,7 @@ class CommentService {
           .get()
           .then((value) => value.exists as bool);
 
-  Future<List<CommentModel>> getCommentAll(ContentModel content) async {
+  List<CommentModel> getCommentAll(ContentModel content) {
     List<CommentModel> comments = [];
     firebaseFirestore
         .collection(contentCollection)

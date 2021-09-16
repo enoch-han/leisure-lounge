@@ -45,7 +45,7 @@ class RateService {
           .get()
           .then((value) => value.exists as bool);
 
-  Future<List<RateModel>> getRateAll(ContentModel content) async {
+  List<RateModel> getRateAll(ContentModel content) {
     List<RateModel> rates = [];
     firebaseFirestore
         .collection(contentCollection)

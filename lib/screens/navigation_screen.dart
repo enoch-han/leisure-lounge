@@ -1,9 +1,17 @@
+import 'dart:io';
+import 'package:leisurelounge/bloc/sign_in_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/bloc/content_bloc.dart';
 import 'package:leisurelounge/data/data.dart';
 import 'package:leisurelounge/screens/home_screen.dart';
 import 'package:leisurelounge/screens/screens.dart';
+import '../services/services.dart';
+import '../models/models.dart';
+import '../adminbackend/content_creator.dart';
 
 class NavigationScreen extends StatefulWidget {
+  static const String routeName = "/navigationScreen";
   NavigationScreen({Key? key}) : super(key: key);
 
   @override
@@ -34,6 +42,13 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+//tepmorary code here
+    SignInProvider signInProvider = Provider.of<SignInProvider>(context);
+
+    final UserModel user = signInProvider.userModel as UserModel;
+
+//*************** */
+
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -51,5 +66,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
               .values
               .toList()),
     );
+  }
+
+  Future<List<ContentModel>> getAll() async {
+    ContentService service = ContentService();
+    List<ContentModel> allContents = [];//await service.getContentAll();
+    return allContents;
   }
 }

@@ -46,7 +46,7 @@ class LikeServices {
           .get()
           .then((value) => value.exists as bool);
 
-  Future<List<LikeModel>> getLikeAll(ContentModel content) async {
+  List<LikeModel> getLikeAll(ContentModel content) {
     List<LikeModel> likes = [];
     firebaseFirestore
         .collection(contentCollection)

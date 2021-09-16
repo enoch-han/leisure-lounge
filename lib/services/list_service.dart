@@ -40,7 +40,7 @@ class ListService {
           .get()
           .then((value) => value.exists as bool);
 
-  Future<List<ListModel>> getListAll(ContentModel content) async {
+  List<ListModel> getListAll(ContentModel content) {
     List<ListModel> lists = [];
     firebaseFirestore
         .collection(contentCollection)

@@ -2,6 +2,7 @@ import '../models/models.dart';
 import 'package:flutter/material.dart';
 import '../widgets/widgets.dart';
 import '../data/data.dart';
+import '../bloc/bloc.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);

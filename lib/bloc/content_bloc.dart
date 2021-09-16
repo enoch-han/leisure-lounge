@@ -14,6 +14,9 @@ import './sign_in_bloc.dart';
 import 'package:flutter/material.dart';
 
 class ContentProvider with ChangeNotifier {
+  ContentProvider() {
+    initialize();
+  }
   ContentModel? _content;
   ContentService _contentService = ContentService();
   LikeServices _likeServices = LikeServices();
@@ -22,30 +25,31 @@ class ContentProvider with ChangeNotifier {
   ListService _listService = ListService();
   Stream contentFireStream =
       firebaseFirestore.collection('contents').snapshots();
-  StreamController contentsStream = StreamController();
+  //StreamController contentsStream = StreamController();
   late SignInProvider signInProvider;
-  late UserModel user;
+
   bool lockStatus = false;
 
-  ContentProvider.init(BuildContext context) {
+  initialize() {
     print("in content_bloc class init function");
-    signInProvider = Provider.of<SignInProvider>(context);
-    this.user = signInProvider.userModel as UserModel;
+    //signInProvider = Provider.of<SignInProvider>(context, listen: false);
+    //this.user = signInProvider.userModel as UserModel;
     _contentProviderSetUP();
   }
 
   _contentProviderSetUP() async {
-    contentsStream.sink.add(_contentService.getContentAll());
+    print("in content bloc content provider setup funtion");
+    /*contentsStream.sink.add(await _contentService.getContentAll());
     firebaseFirestore.collection("contents").snapshots().listen((event) {
       updateStream();
       notifyListeners();
-    });
+    });*/
   }
 
   updateStream() {
-    contentsStream.stream.drain();
-    contentsStream.sink.add(_contentService.getContentAll());
-    notifyListeners();
+    //contentsStream.stream.drain();
+    //contentsStream.sink.add(_contentService.getContentAll());
+    //notifyListeners();
   }
 
   lockContent(ContentModel content) {
@@ -62,10 +66,10 @@ class ContentProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  like() {
+  like(UserModel user) {
     if (this.lockStatus) {
-      LikeModel like = LikeModel(
-          userId: this.user.id, contentId: this._content?.id as String);
+      LikeModel like =
+          LikeModel(userId: user.id, contentId: this._content?.id as String);
       _likeServices.createLike(this._content as ContentModel, like);
       notifyListeners();
     } else {
@@ -73,7 +77,7 @@ class ContentProvider with ChangeNotifier {
     }
   }
 
-  comment(String description) {
+  comment(String description, UserModel user) {
     if (this.lockStatus) {
       CommentModel comment = CommentModel(
           userId: user.id,
@@ -84,10 +88,10 @@ class ContentProvider with ChangeNotifier {
     }
   }
 
-  rate(int value) {
+  rate(int value, UserModel user) {
     if (this.lockStatus) {
       RateModel rate = RateModel(
-          userId: this.user.id,
+          userId: user.id,
           contentId: this._content?.id as String,
           value: value);
       _rateService.createRate(this._content as ContentModel, rate);
@@ -95,16 +99,21 @@ class ContentProvider with ChangeNotifier {
     }
   }
 
-  list() {
+  list(UserModel user) {
     if (this.lockStatus) {
-      ListModel list = ListModel(
-          userId: this.user.id, contentId: this._content?.id as String);
+      ListModel list =
+          ListModel(userId: user.id, contentId: this._content?.id as String);
       _listService.createList(this._content as ContentModel, list);
     }
   }
 
-  addList(ContentModel content) {
-    ListModel list = ListModel(userId: this.user.id, contentId: content.id);
+  addList(ContentModel content, UserModel user) {
+    ListModel list = ListModel(userId: user.id, contentId: content.id);
     _listService.createList(content, list);
   }
+
+  /*ContentModel featuredContent() {
+    //this is a funtion that returns featured content
+    return
+  }*/
 }

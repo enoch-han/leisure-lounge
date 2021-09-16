@@ -9,9 +9,9 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initialization;
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: SignInProvider.init())],
-      child: MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider.value(value: SignInProvider.init()),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,10 +35,14 @@ class AppScreensController extends StatelessWidget {
     SignInProvider authProvider = Provider.of<SignInProvider>(context);
     switch (authProvider.status) {
       case Status.Uninitialized:
-        return SignInScreen();
+        //return SignInScreen();
+        //temp should be removed after testing
+        return NavigationScreen();
       case Status.Unauthenticated:
       case Status.Authenticating:
-        return SignInScreen();
+        //return SignInScreen();
+        //temp should be removed after testing
+        return NavigationScreen();
       case Status.Authenticated:
         return NavigationScreen();
       default:

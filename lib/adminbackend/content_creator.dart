@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:html';
 import 'package:provider/provider.dart';
 import '../utils/utils.dart';
 import '../models/models.dart';
@@ -7,25 +7,23 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class ContentCreator {
   late ContentModel content;
-  late FileModel file;
+  late File imageFile;
+  late File contentFile;
   bool status = false;
 
-  ContentCreator({required this.content, required this.file});
+  ContentCreator({required this.content});
 
   Future<bool> createContentWithFile() async {
+    print("in create content with file");
     ContentService contentService = ContentService();
-    FileService fileService = FileService();
-    status = await fileService.storeFile(content, file);
-    String imageRef = "contents/" + content.id + "/" + file.imageName;
-    String imageDownloadUrl =
-        await firebaseStorage.ref(imageRef).getDownloadURL();
-    content.setImageUrl = imageDownloadUrl;
-    String contentRef = "contents/" + content.id + "/" + file.contentName;
-    String contentDownloadUrl =
-        await firebaseStorage.ref(contentRef).getDownloadURL();
-    content.setUrl = contentDownloadUrl;
+    print("second print");
     await contentService.createContent(content);
-    fileService.createFile(content, file);
+    FileService fileService = FileService(
+        content: this.content,
+        imageFile: this.imageFile,
+        contentFile: this.contentFile);
+    fileService.uploadFile();
+    print("third print");
 
     return status;
   }

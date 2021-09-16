@@ -69,7 +69,9 @@ class ContentModel {
       required this.type,
       required this.genre,
       required this.description,
-      required this.releaseYear});
+      required this.releaseYear,
+      required this.imageUrl,
+      required this.contentUrl});
 
   ContentModel.fromSnapshot(DocumentSnapshot snapshot) {
     // a constructor which populates the fields parsing from snaphot
