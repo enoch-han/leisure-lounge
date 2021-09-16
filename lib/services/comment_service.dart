@@ -45,19 +45,17 @@ class CommentService {
           .get()
           .then((value) => value.exists as bool);
 
-  List<CommentModel> getCommentAll(ContentModel content) {
+  Future<List<CommentModel>> getAllComments(ContentModel content) async {
     List<CommentModel> comments = [];
-    firebaseFirestore
+    QuerySnapshot snapshot = await firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .get()
-        .then((value) {
-      value.docs.forEach((doc) async {
-        CommentModel tempComment = await getCommentById(content, doc.id);
-        comments.add(tempComment);
-      });
-    });
+        .get();
+    comments.addAll(snapshot.docs.map((doc) {
+      return CommentModel.fromSnapshot(doc);
+    }));
+    print(comments.length);
     return comments.toList();
   }
 

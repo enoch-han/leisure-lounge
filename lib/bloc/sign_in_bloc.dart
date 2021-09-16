@@ -20,7 +20,7 @@ class SignInProvider with ChangeNotifier {
   LikeServices _likeServices = LikeServices();
   RateService _rateService = RateService();
   ListService _listService = ListService();
-  List<ContentModel>? contents;
+  late List<ContentModel> contents;
 
   UserModel? _userModel;
   GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -126,11 +126,43 @@ class SignInProvider with ChangeNotifier {
     print("in initializecontents function in the sign in provider class");
     contents = await _contentServices.getAllContents();
     if (contents != null) {
-      contents!.forEach((element) {
+      contents.forEach((element) {
         print(element.title);
         print(element.description);
       });
     }
+  }
+
+  ContentModel featuredContent() {
+    /*
+    a function which returns featured content
+     */
+    return contents[1];
+  }
+
+  List<ContentModel> trendingContents() {
+    /*
+    a fucntion which returns trending contents
+     */
+    return contents;
+  }
+
+  List<ContentModel> recentContents() {
+    /*
+    a function which returns recent contents
+     */
+    List<ContentModel> tempContents = contents;
+    tempContents.sort((first, second) {
+      return first.releaseYear.compareTo(second.releaseYear);
+    });
+    return tempContents;
+  }
+
+  List<ContentModel> recommendationContents() {
+    /*
+    a function which returns recommentdation contents
+     */
+    return contents;
   }
 
   void tempdataadder() {

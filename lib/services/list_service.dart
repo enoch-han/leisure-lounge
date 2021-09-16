@@ -40,19 +40,17 @@ class ListService {
           .get()
           .then((value) => value.exists as bool);
 
-  List<ListModel> getListAll(ContentModel content) {
+  Future<List<ListModel>> getAllLists(ContentModel content) async {
     List<ListModel> lists = [];
-    firebaseFirestore
+    QuerySnapshot snapshot = await firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .get()
-        .then((value) {
-      value.docs.forEach((doc) async {
-        ListModel tempList = await getListById(content, doc.id);
-        lists.add(tempList);
-      });
-    });
+        .get();
+    lists.addAll(snapshot.docs.map((doc) {
+      return ListModel.fromSnapshot(doc);
+    }));
+    print(lists.length);
     return lists.toList();
   }
 }

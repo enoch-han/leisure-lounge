@@ -51,72 +51,14 @@ class ContentService {
       .get()
       .then((value) => value.exists as bool);
 
-//returns all the contents in the database
-  // Future<List<ContentModel>> getContentAll() async {
-  //   contents.clear();
-  //   firebaseFirestore.collection(collection).get().then((value) {
-  //     value.docs.forEach((doc) async {
-  //       ContentModel tempContent = await getContentById(doc.id)
-  //           .then((value) => contents.add(value) as ContentModel);
-  //       print('in the get content all function');
-
-  //       //contents.add(tempContent);
-  //     });
-  //   });
-
-  //   print(" the lenght is : ${contents.length}");
-  //   return contents.toList();
-
-  //   contents.map((e) => print(e.title));
-  //   //return contents.toList();
-  // }
-
   Future<List<ContentModel>> getAllContents() async {
     List<ContentModel> contents = [];
     QuerySnapshot snapshot =
         await firebaseFirestore.collection(collection).get();
-    // for (int i = 0; i < snapshot.docs.length; i++) {
-
-    //   ContentModel tempContent = getContentById(snapshot.docs.asMap().id);
-    // }
-    contents.addAll(snapshot.docs.map((e) {
-      return ContentModel.fromSnapshot(e);
+    contents.addAll(snapshot.docs.map((doc) {
+      return ContentModel.fromSnapshot(doc);
     }));
-    // contents = await firebaseFirestore
-    //     .collection(collection)
-    //     .get()
-    //     .then((value) async {
-    //   value.docs.forEach((doc) async {
-    //     print(doc);
-    //     //ContentModel tempContent = await getContentById(doc.id);
-    //     //print(tempContent.title);
-    //     ContentModel tempContent = ContentModel.fromSnapshot(doc);
-    //     contents.add(await getContentById(doc.id));
-    //     print(tempContent.title);
-    //     print(contents.length);
-    //   });
-    //   //print(contents.length);
-    //   return contents;
-    // });
-
-    // Timer(Duration(seconds: 5), () {
-    //   print(contents.length);
-    // });
     print(contents.length);
     return contents.toList();
   }
-
-  // Future<List<ContentModel>> getAllContents() async {
-  //   List<ContentModel> contents = [];
-  //   var snapshots = await firebaseFirestore.collection(collection).get();
-  //   contents.add(
-  //     snapshots.forEach((doc) async {
-  //     ContentModel tempContent = await getContentById(doc.id);
-  //     print(tempContent.title);
-  //     return tempContent;
-  //   })
-  //   );
-  // }
-
-  //Future<List<ContentModel>> getAllContents() async {}
 }

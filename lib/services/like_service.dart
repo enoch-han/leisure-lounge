@@ -46,19 +46,17 @@ class LikeServices {
           .get()
           .then((value) => value.exists as bool);
 
-  List<LikeModel> getLikeAll(ContentModel content) {
+  Future<List<LikeModel>> getAllLikes(ContentModel content) async {
     List<LikeModel> likes = [];
-    firebaseFirestore
+    QuerySnapshot snapshot = await firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .get()
-        .then((value) {
-      value.docs.forEach((doc) async {
-        LikeModel tempLike = await getLikeById(content, doc.id);
-        likes.add(tempLike);
-      });
-    });
+        .get();
+    likes.addAll(snapshot.docs.map((doc) {
+      return LikeModel.fromSnapshot(doc);
+    }));
+    print(likes.length);
     return likes.toList();
   }
 

@@ -45,19 +45,17 @@ class RateService {
           .get()
           .then((value) => value.exists as bool);
 
-  List<RateModel> getRateAll(ContentModel content) {
+  Future<List<RateModel>> getAllRates(ContentModel content) async {
     List<RateModel> rates = [];
-    firebaseFirestore
+    QuerySnapshot snapshot = await firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)
         .collection(collection)
-        .get()
-        .then((value) {
-      value.docs.forEach((doc) async {
-        RateModel tempRate = await getRateById(content, doc.id);
-        rates.add(tempRate);
-      });
-    });
+        .get();
+    rates.addAll(snapshot.docs.map((doc) {
+      return RateModel.fromSnapshot(doc);
+    }));
+    print(rates.length);
     return rates.toList();
   }
 
@@ -65,7 +63,7 @@ class RateService {
     ContentModel tempContent =
         service.getContentById(content.id) as ContentModel;
     RateService rateService = RateService();
-    List<RateModel> rates = rateService.getRateAll(content) as List<RateModel>;
+    List<RateModel> rates = rateService.getAllRates(content) as List<RateModel>;
     int howManyRates = rates.length;
     int ratesSummation = 0;
     rates.map((rateobj) {
