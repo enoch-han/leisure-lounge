@@ -9,3 +9,4 @@ export './sign_in_widget.dart';
 export './profile_header.dart';
 export './profile_body.dart';
 export './content_page_header.dart';
+export './player_widget.dart';

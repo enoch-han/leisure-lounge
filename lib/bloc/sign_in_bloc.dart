@@ -20,7 +20,7 @@ class SignInProvider with ChangeNotifier {
   LikeServices _likeServices = LikeServices();
   RateService _rateService = RateService();
   ListService _listService = ListService();
-  late List<ContentModel> contents;
+  late List<ContentModel> contents = [];
 
   UserModel? _userModel;
   GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -33,7 +33,7 @@ class SignInProvider with ChangeNotifier {
   SignInProvider.init() {
     print("in sign in bloc init function");
     _fireSetUp();
-    _initializeContents();
+    initializeContents();
   }
 
   _fireSetUp() async {
@@ -104,16 +104,19 @@ class SignInProvider with ChangeNotifier {
 
   _onStateChanged(User firebaseUser) {
     // ignore: unnecessary_null_comparison
+    print("in on state changed function");
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
       notifyListeners();
+      print("user is null");
     } else {
+      print("user is not null");
       _user = firebaseUser;
       initializeUserModel();
-      //Future.delayed(const Duration(seconds: 2), () {
-      _status = Status.Authenticated;
-      notifyListeners();
-      //});
+      Future.delayed(const Duration(seconds: 2), () {
+        _status = Status.Authenticated;
+        notifyListeners();
+      });
     }
   }
 
@@ -121,48 +124,84 @@ class SignInProvider with ChangeNotifier {
   form this place the content funtionalities are implemeted
    */
 
-  void _initializeContents() async {
+  void initializeContents() async {
     //this fucntion feches all the available contents in the database
     print("in initializecontents function in the sign in provider class");
     contents = await _contentServices.getAllContents();
-    if (contents != null) {
-      contents.forEach((element) {
-        print(element.title);
-        print(element.description);
-      });
-    }
+    // if (contents != null) {
+    //   contents.forEach((element) {
+    //     print(element.title);
+    //     print(element.description);
+    //   });
+    // }
+    notifyListeners();
+    //await featuredContent();
   }
 
-  ContentModel featuredContent() {
+  Future<ContentModel> featuredContent() async {
     /*
     a function which returns featured content
      */
-    return contents[1];
+    List<ContentModel> testContents = await _contentServices.getAllContents();
+    print(" the featured content is ${testContents.length}");
+    print(testContents[0].genre);
+    return testContents[0];
   }
 
-  List<ContentModel> trendingContents() {
+  Future<List<ContentModel>> trendingContents() async {
     /*
     a fucntion which returns trending contents
      */
-    return contents;
+    List<ContentModel> testContents = await _contentServices.getAllContents();
+    return testContents;
   }
 
-  List<ContentModel> recentContents() {
+  Future<List<ContentModel>> recentContents() async {
     /*
     a function which returns recent contents
      */
-    List<ContentModel> tempContents = contents;
+    List<ContentModel> testContents = await _contentServices.getAllContents();
+    List<ContentModel> tempContents = testContents;
     tempContents.sort((first, second) {
       return first.releaseYear.compareTo(second.releaseYear);
     });
     return tempContents;
   }
 
-  List<ContentModel> recommendationContents() {
+  Future<List<ContentModel>> recommendationContents() async {
     /*
     a function which returns recommentdation contents
      */
-    return contents;
+    List<ContentModel> testContents = await _contentServices.getAllContents();
+    return testContents;
+  }
+
+  like(UserModel user, ContentModel content) {
+    /*
+    this function adds like to the content
+     */
+    LikeModel like = LikeModel(userId: user.id, contentId: content.id);
+    _likeServices.createLike(content, like);
+    notifyListeners();
+  }
+
+  comment(String description, UserModel user, ContentModel content) {
+    CommentModel comment = CommentModel(
+        userId: user.id, contentId: content.id, description: description);
+    _commentService.createComment(content, comment);
+    notifyListeners();
+  }
+
+  rate(int value, UserModel user, ContentModel content) {
+    RateModel rate =
+        RateModel(userId: user.id, contentId: content.id, value: value);
+    _rateService.createRate(content, rate);
+    notifyListeners();
+  }
+
+  list(UserModel user, ContentModel content) {
+    ListModel list = ListModel(userId: user.id, contentId: content.id);
+    _listService.createList(content, list);
   }
 
   void tempdataadder() {

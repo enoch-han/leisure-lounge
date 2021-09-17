@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/services/player.dart';
 import '../models/models.dart';
 
 class ContentPageHeader extends StatelessWidget {
@@ -11,7 +12,7 @@ class ContentPageHeader extends StatelessWidget {
       height: 500,
       decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(content.imageUrl),
+            image: Image.network(content.imageUrl).image,
             fit: BoxFit.cover,
           ),
           borderRadius: BorderRadius.only(
@@ -39,7 +40,12 @@ class ContentPageHeader extends StatelessWidget {
           ),
           Positioned(
             child: GestureDetector(
-              onTap: playButtonHandler,
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Player(content: content)));
+              },
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -60,9 +66,5 @@ class ContentPageHeader extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void playButtonHandler() {
-    print("play button tapped");
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:leisurelounge/bloc/bloc.dart';
 import 'package:leisurelounge/widgets/recent.dart';
+import 'package:provider/provider.dart';
 import '../widgets/widgets.dart';
 import '../models/models.dart';
 import '../data/data.dart';
+import '../services/services.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/homeScreen";
@@ -34,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final SignInProvider signInProvider = Provider.of<SignInProvider>(context);
+    print("in homescreen build");
+    ContentService contentService = ContentService();
     final Size screenSize = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -43,38 +49,44 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollOffset: _scrollOffset,
         ),
       ),
-      body: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverToBoxAdapter(
-            //----- here is the featured content header ------
-            child: ContentHeader(
-              featuredContent: featuredcontent,
-            ),
-          ),
-          SliverPadding(
-            padding: EdgeInsets.only(top: 20.0),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Trending(
-                    title: "Trending",
-                    items: trending,
-                    key: PageStorageKey("trending"),
-                  ),
-                  Recent(
-                    items: trending,
-                    key: PageStorageKey("recent"),
-                  ),
-                  Recommendation(
-                    items: trending,
-                    key: PageStorageKey("recommendation"),
-                  ),
-                ],
+      body: FutureBuilder(
+        future: signInProvider.featuredContent(),
+        builder: (context, snapshot) {
+          print("the snapshot data${snapshot.data}");
+          return CustomScrollView(
+            controller: _scrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                //----- here is the featured content header ------
+                child: ContentHeader(
+                  featuredContent: snapshot.data as ContentModel,
+                ),
               ),
-            ),
-          ),
-        ],
+              SliverPadding(
+                padding: EdgeInsets.only(top: 20.0),
+                sliver: SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      Trending(
+                        title: "Trending",
+                        items: trending,
+                        key: PageStorageKey("trending"),
+                      ),
+                      Recent(
+                        items: trending,
+                        key: PageStorageKey("recent"),
+                      ),
+                      Recommendation(
+                        items: trending,
+                        key: PageStorageKey("recommendation"),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

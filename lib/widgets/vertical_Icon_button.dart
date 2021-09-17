@@ -17,13 +17,15 @@ class VerticalIconButton extends StatelessWidget {
           Icon(
             icon,
             color: Colors.white,
+            size: 20,
           ),
           SizedBox(
             height: 2.0,
           ),
           Text(
             title,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           )
         ],
       ),

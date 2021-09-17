@@ -24,8 +24,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
       key: PageStorageKey("homescreen"),
     ),
     MyListScreen(),
-    //this is temporary code should be replaced in future
-    ContentScreen(content: featuredcontent),
     SearchScreen(),
     ProfileScreen()
   ];
@@ -33,7 +31,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final Map<String, IconData> _icons = {
     "home": Icons.home,
     "myList": Icons.list_rounded,
-    "comingSoon": Icons.play_circle,
     "search": Icons.search_rounded,
     "profile": Icons.person
   };
@@ -70,7 +67,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Future<List<ContentModel>> getAll() async {
     ContentService service = ContentService();
-    List<ContentModel> allContents = [];//await service.getContentAll();
+    List<ContentModel> allContents = []; //await service.getContentAll();
     return allContents;
   }
 }

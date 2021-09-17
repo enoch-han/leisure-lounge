@@ -33,6 +33,7 @@ class AppScreensController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SignInProvider authProvider = Provider.of<SignInProvider>(context);
+
     switch (authProvider.status) {
       case Status.Uninitialized:
         //return SignInScreen();

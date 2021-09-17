@@ -60,8 +60,7 @@ class CommentService {
   }
 
   Future<bool> addCommentCount(ContentModel content) async {
-    ContentModel tempContent =
-        service.getContentById(content.id) as ContentModel;
+    ContentModel tempContent = await service.getContentById(content.id);
     firebaseFirestore
         .collection(contentCollection)
         .doc(content.id)

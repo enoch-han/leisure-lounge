@@ -62,8 +62,7 @@ class LikeServices {
 
   Future<bool> addLikeCount(ContentModel content) async {
     //this function adds the the like count by 1
-    ContentModel tempContent =
-        service.getContentById(content.id) as ContentModel;
+    ContentModel tempContent = await service.getContentById(content.id);
     firebaseFirestore.collection(contentCollection).doc(content.id).update(
         {"likeCount": tempContent.likeCount++}).onError((error, stackTrace) {
       print("error occured in like service addlikecount function");

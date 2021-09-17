@@ -60,10 +60,9 @@ class RateService {
   }
 
   Future<bool> addRate(ContentModel content, int rate) async {
-    ContentModel tempContent =
-        service.getContentById(content.id) as ContentModel;
+    ContentModel tempContent = await service.getContentById(content.id);
     RateService rateService = RateService();
-    List<RateModel> rates = rateService.getAllRates(content) as List<RateModel>;
+    List<RateModel> rates = await rateService.getAllRates(content);
     int howManyRates = rates.length;
     int ratesSummation = 0;
     rates.map((rateobj) {
